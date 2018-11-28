@@ -44,6 +44,43 @@ public class RumahSakit {
         getDaftarDokter().add(dokter);
     }
 
+    public boolean isDokterExist(Dokter dokter) {
+        try {
+            // buat kelas database
+            MyOracle ora = new MyOracle("172.23.9.185", "1521", "orcl",
+                    MyOracle.USER_NAME, MyOracle.PASSWORD);
+            // buat koneksi
+            Connection con = ora.getConnection();
+            // buat statement
+            Statement statement = con.createStatement();
+            // buat query
+            // SELECT id_dokter,nama from puspa.dokter 
+            String query = "SELECT * from dokter where id_dokter = '" + dokter.getIdDokter() + "'";
+            // kosongkan list 
+            setDaftarDokter(new ArrayList<Dokter>());
+            // jalankan/eksekusi queri
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next() == false) {
+                con.close();
+                return false;
+            } else {
+                if (rs.getString("NAMA").equals(dokter.getNama())) {
+                    con.close();
+                return true;
+                }else{
+                     con.close();
+                return false;
+                }
+                
+               
+            }
+            // tutup koneksi
+        } catch (SQLException ex) {
+            Logger.getLogger(RumahSakit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     /**
      * Fungsi untuk menyimpan data dari array list masuk ke database
      */

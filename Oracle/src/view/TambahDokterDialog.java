@@ -12,13 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import model_RS.Dokter;
 import model_RS.RumahSakit;
 
 /**
  *
  * @author user only
  */
-public class TambahDokterDialog extends JDialog{
+public class TambahDokterDialog extends JDialog {
+    
     private RumahSakit rumahSakit;
     private JLabel tambahDokterLabel;
     private JLabel idDokterLabel;
@@ -34,19 +36,41 @@ public class TambahDokterDialog extends JDialog{
         rumahSakit = rs;
         init();
     }
-    
+
     /**
      * Fungsi untuk inisialisasi
      */
-    public void init(){
+    public void init() {
         // set size
         setSize(400, 300);
         // set layout
         setLayout(null);
+        
+        tambahDokterLabel = new JLabel("Formulir Penambahan Dokter");
+        tambahDokterLabel.setBounds(120, 30, 250, 30);
+        this.add(tambahDokterLabel);
+        
+        idDokterLabel = new JLabel("ID Dokter");
+        idDokterLabel.setBounds(20, 60, 60, 30);
+        this.add(idDokterLabel);
+        
+        idDokterText = new JTextField();
+        idDokterText.setBounds(100, 60, 150, 30);
+        this.add(idDokterText);
+        
+        namaDokterLabel = new JLabel("Nama Dokter");
+        namaDokterLabel.setBounds(20, 100, 150, 30);
+        this.add(namaDokterLabel);
+        
+        namaDokterText = new JTextField();
+        namaDokterText.setBounds(100, 100, 200, 30);
+        this.add(namaDokterText);
+
         // tambah Tombol Tambah
         tambahButton = new JButton("Tambah");
         tambahButton.setBounds(50, 200, 100, 30);
         add(tambahButton);
+
         // set action listener button
         tambahButton.addActionListener(new ActionListener() {
             @Override
@@ -55,9 +79,13 @@ public class TambahDokterDialog extends JDialog{
             }
         });
     }
-    public void tambahDokter(){
+    
+    public void tambahDokter() {
+        Dokter dr1 = new Dokter(idDokterText.getText(), namaDokterText.getText());
+        rumahSakit.tambahDokter(dr1);
         
         owner.refreshTabelDokter();
+        
         dispose();
     }
 }
